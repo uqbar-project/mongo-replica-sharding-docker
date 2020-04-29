@@ -5,8 +5,8 @@ services:
     container_name: mongo1
     image: mongo:3.6.16
     volumes:
-      - ./data1/db:/data/db
-      - ./data1/configdb:/data/configdb
+      - ./data/mongo1/db:/data/db
+      - ./data/mongo1/configdb:/data/configdb
     networks:
       - mongo-dev-net
     expose:
@@ -20,8 +20,8 @@ services:
     container_name: mongo2
     image: mongo:3.6.16
     volumes:
-      - ./data2/db:/data/db
-      - ./data2/configdb:/data/configdb
+      - ./data/mongo2/db:/data/db
+      - ./data/mongo2/configdb:/data/configdb
     networks:
       - mongo-dev-net
     expose:
@@ -35,8 +35,8 @@ services:
     container_name: mongo3
     image: mongo:3.6.16
     volumes:
-      - ./data3/db:/data/db
-      - ./data3/configdb:/data/configdb
+      - ./data/mongo3/db:/data/db
+      - ./data/mongo3/configdb:/data/configdb
     networks:
       - mongo-dev-net
     expose:
