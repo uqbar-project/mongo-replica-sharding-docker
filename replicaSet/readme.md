@@ -1,4 +1,6 @@
-Access mongo1 node and:
+# Ejemplo de Replica Set con docker-compose
+
+Acceder al nodo mongo1 y:
 
 ```
 rs.initiate()
@@ -6,37 +8,42 @@ rs.add("mongo2:30002")
 rs.add("mongo3:30001")
 ```
 
-or
+o de otra forma, acceder a cualquier nodo y:
 
 ```
 cfg={_id:"rsdev",members:[{host:"mongo1:30001"},{host:"mongo2:30002"},{host:"mongo3:30003"}]}
 ```
 
-Connstring for connecting to replicaSet:
+Connection string para conectarse al replica Set:
+
 ```
-mongodb://mongo1:30001,mongo2:30002,mongo3:30003/murally?replicaSet=devrs&readPreference=secondary
+mongodb://mongo1:30001,mongo2:30002,mongo3:30003/?replicaSet=devrs
 ```
 
+# Agregar latencia a la red para hacer pruebas
 
-# Adding network latency
+Es necesario que los servicios se lancen con privilegios de net admin:
 
-Need to launch services with net admin capabilities:
 ```
 -cap_add:
         - NET_ADMIN
 ```
-Then install:
+
+Además instalar:
+
 ```
 apt update
 apt install iproute
 ```
-and last:
+
+Y por último correr el siguiente comando (ejemplo para 800ms de delay)
 
 ```
 tc qdisc add dev eth0 root netem delay 800ms
 ```
 
-To undo:
+Para deshacer:
+
 ```
 qdisc pfifo_fast 0: dev eth0 root refcnt 2 bands 3 priomap 1 2 2 2 1 2 0 0 1 1 1 1 1 1 1 1
 ```
