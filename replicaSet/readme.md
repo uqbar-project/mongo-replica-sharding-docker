@@ -5,13 +5,13 @@ Acceder al nodo mongo1 y:
 ```
 rs.initiate()
 rs.add("mongo2:30002")
-rs.add("mongo3:30001")
+rs.add("mongo3:30003")
 ```
 
 o de otra forma, acceder a cualquier nodo y:
 
 ```
-cfg={_id:"rsdev",members:[{host:"mongo1:30001"},{host:"mongo2:30002"},{host:"mongo3:30003"}]}
+cfg={_id:"rsdev",members:[{_id: 1, host:"mongo1:30001"},{_id: 2, host:"mongo2:30002"},{_id: 3, host:"mongo3:30003"}]}
 ```
 
 Connection string para conectarse al replica Set:
