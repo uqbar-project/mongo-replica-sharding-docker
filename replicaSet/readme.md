@@ -1,6 +1,16 @@
 # Ejemplo de Replica Set con docker-compose
 
-Acceder al nodo mongo1 y:
+### 1. Iniciar los contenedores utilizando docker-compose:
+
+```
+docker-compose up
+```
+
+### 2. Iniciar el replicaSet entre los nodos, hay dos formas:
+
+a.
+
+Conectarse a través de un cliente de mongo a un nodo y correr lo siguiente (ejemplo accediendo al nodo1):
 
 ```
 rs.initiate()
@@ -8,19 +18,24 @@ rs.add("mongo2:30002")
 rs.add("mongo3:30003")
 ```
 
-o de otra forma, acceder a cualquier nodo y:
+b.
+
+Otra forma, sería acceder a cualquier nodo e iniciar el replicaSet con un objeto de configuración:
 
 ```
-cfg={_id:"rsdev",members:[{_id: 1, host:"mongo1:30001"},{_id: 2, host:"mongo2:30002"},{_id: 3, host:"mongo3:30003"}]}
+cfg={_id:"miReplicaSet",members:[{_id: 1, host:"mongo1:30001"},{_id: 2, host:"mongo2:30002"},{_id: 3, host:"mongo3:30003"}]}
+rs.initiate(cfg)
 ```
 
-Connection string para conectarse al replica Set:
+### 3. Ya podés conectarte al replicaSet con el siguiente connection string:
 
 ```
-mongodb://mongo1:30001,mongo2:30002,mongo3:30003/?replicaSet=devrs
+mongodb://mongo1:30001,mongo2:30002,mongo3:30003/?replicaSet=miReplicaSet
 ```
 
-# Agregar latencia a la red para hacer pruebas
+## Opcional
+
+### Agregar latencia a la red para hacer pruebas
 
 Es necesario que los servicios se lancen con privilegios de net admin:
 
