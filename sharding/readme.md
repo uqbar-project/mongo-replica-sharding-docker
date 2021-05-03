@@ -3,9 +3,10 @@
 ### Componentes
 
 - Config Server (replica set de 3 member): `config01`,`config02`,`config03`
-- 3 Shards (cada uno es un replica ser de 2 member ):
-  _ `shard01a`,`shard01b`
-  _ `shard02a`,`shard02b` \* `shard03a`,`shard03b`
+- 3 Shards (cada uno es un replica set de 2 member ):
+  - `shard01a`,`shard01b`
+  - `shard02a`,`shard02b`
+  - `shard03a`,`shard03b`
 - 1 Router (mongos): `router`
 - (TODO): Agregar persistencia local usando volúmenes
 

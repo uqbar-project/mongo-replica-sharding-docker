@@ -1,59 +1,58 @@
 version: "3.7"
 
 services:
-
   ## Config Servers
   config01:
-    image: mongo
+    image: mongo:4.2
     command: mongod --port 27017 --configsvr --replSet configserver   --oplogSize 16
     volumes:
       - ./scripts:/scripts
   config02:
-    image: mongo
+    image: mongo:4.2
     command: mongod --port 27017 --configsvr --replSet configserver   --oplogSize 16
     volumes:
       - ./scripts:/scripts
   config03:
-    image: mongo
+    image: mongo:4.2
     command: mongod --port 27017 --configsvr --replSet configserver   --oplogSize 16
     volumes:
       - ./scripts:/scripts
 
   ## Shards
   shard01a:
-    image: mongo
+    image: mongo:4.2
     command: mongod --port 27018 --shardsvr --replSet shard01   --oplogSize 16
     volumes:
       - ./scripts:/scripts
   shard01b:
-    image: mongo
+    image: mongo:4.2
     command: mongod --port 27018 --shardsvr --replSet shard01   --oplogSize 16
     volumes:
       - ./scripts:/scripts
   shard02a:
-    image: mongo
+    image: mongo:4.2
     command: mongod --port 27019 --shardsvr --replSet shard02   --oplogSize 16
     volumes:
       - ./scripts:/scripts
   shard02b:
-    image: mongo
+    image: mongo:4.2
     command: mongod --port 27019 --shardsvr --replSet shard02   --oplogSize 16
     volumes:
       - ./scripts:/scripts
   shard03a:
-    image: mongo
+    image: mongo:4.2
     command: mongod --port 27020 --shardsvr --replSet shard03   --oplogSize 16
     volumes:
       - ./scripts:/scripts
   shard03b:
-    image: mongo
+    image: mongo:4.2
     command: mongod --port 27020 --shardsvr --replSet shard03   --oplogSize 16
     volumes:
       - ./scripts:/scripts
 
   ## Router
   router:
-    image: mongo
+    image: mongo:4.2
     command: mongos --port 27017 --configdb configserver/config01:27017,config02:27017,config03:27017 --bind_ip_all
     ports:
       - "27001:27017"
@@ -69,3 +68,20 @@ services:
       - shard02b
       - shard03a
       - shard03b
+
+  docker-hoster:
+    image: dvdarias/docker-hoster
+    depends_on:
+      - config01
+      - config02
+      - config03
+      - shard01a
+      - shard01b
+      - shard02a
+      - shard02b
+      - shard03a
+      - shard03b
+      - router
+    volumes:
+      - /var/run/docker.sock:/tmp/docker.sock
+      - /etc/hosts:/tmp/hosts
